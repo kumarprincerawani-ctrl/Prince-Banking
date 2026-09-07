@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Prince Banking - Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Animated Background -->
+
+    <div class="dashboard-glow glow-one"></div>
+    <div class="dashboard-glow glow-two"></div>
+
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="brand">
+
+            <div class="mini-logo">
+                ₹
+            </div>
+
+            <div>
+                <h2>Prince Banking</h2>
+                <span>SMART BANKING</span>
+            </div>
+
+        </div>
+
+
+        <div class="nav-actions">
+
+            <div class="notification">
+                🔔
+                <span></span>
+            </div>
+
+            <a href="{{ url_for('logout') }}"
+               class="logout-btn">
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- MAIN -->
+
+    <main class="dashboard-container">
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-section">
+
+            <div>
+
+                <p class="welcome-small">
+                    WELCOME BACK
+                </p>
+
+                <h1>
+                    Hello, {{ user.name }} 👋
+                </h1>
+
+                <p>
+                    Here's your banking overview.
+                </p>
+
+            </div>
+
+
+            <div class="account-badge">
+
+                <span>
+                    ACCOUNT
+                </span>
+
+                <strong>
+                    {{ user.account_no }}
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- BALANCE CARD -->
+
+        <section class="balance-card">
+
+            <div class="balance-left">
+
+                <div class="card-top">
+
+                    <span>
+                        AVAILABLE BALANCE
+                    </span>
+
+                    <span class="card-chip">
+                        ✦
+                    </span>
+
+                </div>
+
+
+                <div class="balance-amount">
+
+                    ₹<span id="balance">
+                        {{ "%.2f"|format(balance) }}
+                    </span>
+
+                </div>
+
+
+                <div class="card-details">
+
+                    <div>
+
+                        <small>
+                            ACCOUNT TYPE
+                        </small>
+
+                        <strong>
+                            {{ user.account_type }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            ACCOUNT NUMBER
+                        </small>
+
+                        <strong>
+                            {{ user.account_no }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-symbol">
+
+                <div class="card-ring">
+                    ₹
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ACTION BUTTONS -->
+
+        <section class="quick-actions">
+
+            <button
+                class="action-card"
+                onclick="openModal('depositModal')">
+
+                <div class="action-icon deposit-icon">
+                    ↓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Deposit
+                    </strong>
+
+                    <span>
+                        Add money
+                    </span>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="action-card"
+                onclick="openModal('withdrawModal')">
+
+                <div class="action-icon withdraw-icon">
+                    ↑
+                </div>
+
+                <div>
+
+                    <strong>
+                        Withdraw
+                    </strong>
+
+                    <span>
+                        Take money out
+                    </span>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="action-card"
+                onclick="showComingSoon()">
+
+                <div class="action-icon transfer-icon">
+                    ⇄
+                </div>
+
+                <div>
+
+                    <strong>
+                        Transfer
+                    </strong>
+
+                    <span>
+                        Send money
+                    </span>
+
+                </div>
+
+            </button>
+
+
+            <button
+                class="action-card"
+                onclick="showComingSoon()">
+
+                <div class="action-icon card-icon">
+                    ▣
+                </div>
+
+                <div>
+
+                    <strong>
+                        Virtual Card
+                    </strong>
+
+                    <span>
+                        View card
+                    </span>
+
+                </div>
+
+            </button>
+
+        </section>
+
+
+
+        <!-- CONTENT GRID -->
+
+        <section class="content-grid">
+
+
+            <!-- TRANSACTIONS -->
+
+            <div class="panel transactions-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            ACTIVITY
+                        </span>
+
+                        <h2>
+                            Recent Transactions
+                        </h2>
+
+                    </div>
+
+                    <span class="transaction-count">
+                        {{ transactions|length }}
+                    </span>
+
+                </div>
+
+
+                {% if transactions %}
+
+                    <div class="transactions-list">
+
+                        {% for transaction in transactions %}
+
+                            <div class="transaction">
+
+                                <div class="transaction-icon
+                                    {% if transaction.type == 'deposit' %}
+                                        positive
+                                    {% else %}
+                                        negative
+                                    {% endif %}">
+
+                                    {% if transaction.type == 'deposit' %}
+                                        ↓
+                                    {% else %}
+                                        ↑
+                                    {% endif %}
+
+                                </div>
+
+
+                                <div class="transaction-info">
+
+                                    <strong>
+                                        {{ transaction.title }}
+                                    </strong>
+
+                                    <span>
+                                        {{ transaction.date }}
+                                    </span>
+
+                                </div>
+
+
+                                <div class="transaction-amount
+                                    {% if transaction.type == 'deposit' %}
+                                        positive-text
+                                    {% else %}
+                                        negative-text
+                                    {% endif %}">
+
+                                    {{ transaction.amount }}
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-state">
+
+                        <div>
+                            ◌
+                        </div>
+
+                        <h3>
+                            No Transactions Yet
+                        </h3>
+
+                        <p>
+                            Your recent activity will appear here.
+                        </p>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+
+            <!-- PROFILE -->
+
+            <div class="panel profile-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <span class="panel-label">
+                            PROFILE
+                        </span>
+
+                        <h2>
+                            Account Details
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-avatar">
+
+                    {{ user.name[0]|upper }}
+
+                </div>
+
+
+                <h3 class="profile-name">
+                    {{ user.name }}
+                </h3>
+
+
+                <p class="profile-type">
+                    {{ user.account_type }} Account
+                </p>
+
+
+                <div class="profile-details">
+
+                    <div>
+
+                        <span>
+                            Account Number
+                        </span>
+
+                        <strong>
+                            {{ user.account_no }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong>
+                            {{ user.email or "Not added" }}
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Phone
+                        </span>
+
+                        <strong>
+                            {{ user.phone or "Not added" }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="secure-badge">
+
+                    🔒
+
+                    <span>
+                        Your account is protected
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- INFO BANNER -->
+
+        <section class="info-banner">
+
+            <div class="info-icon">
+                ✦
+            </div>
+
+            <div>
+
+                <strong>
+                    Prince Banking Security
+                </strong>
+
+                <p>
+                    This is an educational demo project.
+                    No real money or banking services are connected.
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- DEPOSIT MODAL -->
+
+    <div
+        class="modal"
+        id="depositModal"
+        onclick="closeOutside(event, 'depositModal')">
+
+        <div class="modal-box">
+
+            <button
+                class="close-modal"
+                onclick="closeModal('depositModal')">
+
+                ×
+
+            </button>
+
+
+            <div class="modal-icon deposit-modal-icon">
+                ↓
+            </div>
+
+
+            <h2>
+                Deposit Money
+            </h2>
+
+            <p>
+                Enter the amount you want to deposit.
+            </p>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('deposit') }}">
+
+                <div class="amount-input">
+
+                    <span>₹</span>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="1"
+                        step="0.01"
+                        placeholder="0.00"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="gold-button">
+
+                    Confirm Deposit
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- WITHDRAW MODAL -->
+
+    <div
+        class="modal"
+        id="withdrawModal"
+        onclick="closeOutside(event, 'withdrawModal')">
+
+        <div class="modal-box">
+
+            <button
+                class="close-modal"
+                onclick="closeModal('withdrawModal')">
+
+                ×
+
+            </button>
+
+
+            <div class="modal-icon withdraw-modal-icon">
+                ↑
+            </div>
+
+
+            <h2>
+                Withdraw Money
+            </h2>
+
+            <p>
+                Enter the amount you want to withdraw.
+            </p>
+
+
+            <form
+                method="POST"
+                action="{{ url_for('withdraw') }}">
+
+                <div class="amount-input">
+
+                    <span>₹</span>
+
+                    <input
+                        type="number"
+                        name="amount"
+                        min="1"
+                        step="0.01"
+                        placeholder="0.00"
+                        required>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="gold-button">
+
+                    Confirm Withdrawal
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- TOAST -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+            {% for category, message in messages %}
+
+                <div
+                    class="toast {{ category }}"
+                    id="toast">
+
+                    <span>
+                        {% if category == "success" %}
+                            ✓
+                        {% else %}
+                            !
+                        {% endif %}
+                    </span>
+
+                    {{ message }}
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endwith %}
+
+
+
+    <script>
+
+        // =========================
+        // MODAL
+        // =========================
+
+        function openModal(id) {
+
+            document
+                .getElementById(id)
+                .classList.add("active");
+
+        }
+
+
+        function closeModal(id) {
+
+            document
+                .getElementById(id)
+                .classList.remove("active");
+
+        }
+
+
+        function closeOutside(event, id) {
+
+            if (event.target.id === id) {
+
+                closeModal(id);
+
+            }
+
+        }
+
+
+        // =========================
+        // COMING SOON
+        // =========================
+
+        function showComingSoon() {
+
+            alert(
+                "This feature will be added in the next version."
+            );
+
+        }
+
+
+        // =========================
+        // BALANCE ANIMATION
+        // =========================
+
+        window.addEventListener(
+            "load",
+            function () {
+
+                const element =
+                    document.getElementById("balance");
+
+                if (!element) return;
+
+                const target =
+                    parseFloat(
+                        element.textContent.replace(
+                            /,/g,
+                            ""
+                        )
+                    ) || 0;
+
+                let current = 0;
+
+                const duration = 900;
+
+                const start =
+                    performance.now();
+
+
+                function animate(time) {
+
+                    const progress =
+                        Math.min(
+                            (time - start) / duration,
+                            1
+                        );
+
+                    current =
+                        target * progress;
+
+                    element.textContent =
+                        current.toLocaleString(
+                            "en-IN",
+                            {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }
+                        );
+
+                    if (progress < 1) {
+
+                        requestAnimationFrame(
+                            animate
+                        );
+
+                    }
+
+                }
+
+                requestAnimationFrame(
+                    animate
+                );
+
+            }
+        );
+
+
+        // =========================
+        // AUTO HIDE TOAST
+        // =========================
+
+        setTimeout(
+            function () {
+
+                const toast =
+                    document.getElementById("toast");
+
+                if (toast) {
+
+                    toast.classList.add(
+                        "hide"
+                    );
+
+                }
+
+            },
+            3500
+        );
+
+
+        // =========================
+        // ESC CLOSE MODAL
+        // =========================
+
+        document.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Escape") {
+
+                    document
+                        .querySelectorAll(".modal.active")
+                        .forEach(
+                            function(modal) {
+
+                                modal.classList.remove(
+                                    "active"
+                                );
+
+                            }
+                        );
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
