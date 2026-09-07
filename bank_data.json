@@ -1,0 +1,31 @@
+{
+    "users": [
+        {
+            "account_no": "ADMIN001",
+            "name": "Prince Banking Admin",
+            "email": "admin@princebanking.com",
+            "phone": "",
+            "account_type": "Admin",
+            "password_hash": "scrypt:32768:8:1$qezfsfpMM8AZZgRZ$354df3cd29a83c7dd2afb4d1066f5049331ed26d97c06a8e4aee1757a3e45ecb4170bb0dab06593ca7075a73b47d40cccd57d21f7f11709e5a4ad800ad77ac2b",
+            "balance": 0.0,
+            "transactions": []
+        },
+        {
+            "account_no": "100001",
+            "name": "Prince Kumar",
+            "email": "kumar.prince.rawani@gmail.com",
+            "phone": "9204462821",
+            "account_type": "Savings",
+            "password_hash": "scrypt:32768:8:1$edpVm62ufAGy8vIG$db46e194f8357c833bd158db5c6e28f8b45a685e06773835984c485d545f693cfbc165b97e5cb33469d8f24b66eefc11bb469c2c9128cb8726df5e6032602b87",
+            "balance": 500.0,
+            "transactions": [
+                {
+                    "title": "Cash Deposit",
+                    "amount": "+₹500.00",
+                    "type": "deposit",
+                    "date": "07 Sep 2026, 09:42 PM"
+                }
+            ]
+        }
+    ]
+}
