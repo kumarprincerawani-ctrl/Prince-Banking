@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Prince Banking - Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="auth-body">
+
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <div class="auth-container">
+
+        <div class="bank-logo">
+            <div class="logo-circle">
+                ₹
+            </div>
+
+            <h1>Prince Banking</h1>
+
+            <p>
+                Secure • Simple • Smart
+            </p>
+        </div>
+
+
+        <div class="login-card">
+
+            <div class="card-header">
+
+                <span class="small-title">
+                    WELCOME BACK
+                </span>
+
+                <h2>Sign In</h2>
+
+                <p>
+                    Access your banking dashboard
+                </p>
+
+            </div>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            <form method="POST"
+                  action="{{ url_for('login') }}">
+
+                <div class="input-group">
+
+                    <label>
+                        Account Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="account_no"
+                        placeholder="Enter account number"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <div class="password-box">
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Enter password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="show-password"
+                            onclick="togglePassword()">
+
+                            👁
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="gold-button login-button">
+
+                    <span>LOGIN</span>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+
+            <a
+                href="{{ url_for('register') }}"
+                class="register-button">
+
+                Create New Account
+
+            </a>
+
+
+            <div class="demo-info">
+
+                <strong>Demo Project</strong>
+
+                <p>
+                    This is an educational banking
+                    project using local JSON storage.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="auth-footer">
+
+            <p>
+                © 2026 Prince Banking
+            </p>
+
+            <span>
+                Educational Demo
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.querySelector(".show-password");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                button.textContent = "🙈";
+
+            } else {
+
+                password.type = "password";
+
+                button.textContent = "👁";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>

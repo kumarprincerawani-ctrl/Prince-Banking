@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Prince Banking - Create Account</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body class="auth-body">
+
+    <div class="glow glow-one"></div>
+    <div class="glow glow-two"></div>
+
+    <div class="auth-container">
+
+        <div class="bank-logo">
+
+            <div class="logo-circle">
+                ₹
+            </div>
+
+            <h1>Prince Banking</h1>
+
+            <p>
+                Open your account
+            </p>
+
+        </div>
+
+
+        <div class="login-card register-card">
+
+            <div class="card-header">
+
+                <span class="small-title">
+                    NEW CUSTOMER
+                </span>
+
+                <h2>Create Account</h2>
+
+                <p>
+                    Start your banking journey
+                </p>
+
+            </div>
+
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="alert {{ category }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            {% if created_account %}
+
+                <div class="account-created">
+
+                    <div class="success-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Account Created!
+                    </h3>
+
+                    <p>
+                        Your account number is:
+                    </p>
+
+                    <div class="account-number">
+                        {{ created_account }}
+                    </div>
+
+                    <small>
+                        Please save this account number.
+                    </small>
+
+                    <a
+                        href="{{ url_for('login') }}"
+                        class="gold-button">
+
+                        Go To Login →
+
+                    </a>
+
+                </div>
+
+            {% else %}
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('register') }}">
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter your full name"
+                            required>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+
+                            <label>
+                                Email
+                            </label>
+
+                            <input
+                                type="email"
+                                name="email"
+                                placeholder="Email">
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>
+                                Phone
+                            </label>
+
+                            <input
+                                type="tel"
+                                name="phone"
+                                placeholder="Phone">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="input-group">
+
+                        <label>
+                            Account Type
+                        </label>
+
+                        <select name="account_type">
+
+                            <option value="Savings">
+                                Savings Account
+                            </option>
+
+                            <option value="Current">
+                                Current Account
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="input-group">
+
+                            <label>
+                                Password
+                            </label>
+
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Minimum 6 characters"
+                                minlength="6"
+                                required>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>
+                                Confirm Password
+                            </label>
+
+                            <input
+                                type="password"
+                                name="confirm_password"
+                                placeholder="Confirm password"
+                                minlength="6"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="gold-button login-button">
+
+                        <span>
+                            CREATE ACCOUNT
+                        </span>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </button>
+
+
+                </form>
+
+
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+
+                <a
+                    href="{{ url_for('login') }}"
+                    class="register-button">
+
+                    Already have an account?
+                    Sign In
+
+                </a>
+
+
+            {% endif %}
+
+        </div>
+
+
+        <div class="auth-footer">
+
+            <p>
+                © 2026 Prince Banking
+            </p>
+
+            <span>
+                Educational Demo
+            </span>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
